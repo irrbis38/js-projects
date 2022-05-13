@@ -30,3 +30,24 @@ h1 {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.image-container {
+  margin: 10px 30%;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  .image-container {
+    margin: 10px;
+  }
+}
