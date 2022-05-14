@@ -1,4 +1,8 @@
 const imageContainer = document.getElementById('image-container');
+const loader = document.getElementById('loader');
+let isReady = false;
+let imagesLoaded = 0;
+let totalImages = 0;
 let photosArray = [];
 
 // Display photos on the page
@@ -9,7 +13,17 @@ const setAttributeHelper = (element, info) => {
   }
 };
 
+const imageLoaded = () => {
+  imagesLoaded += 1;
+  if (imagesLoaded === totalImages) {
+    isReady = true;
+    loader.hidden = true;
+  }
+};
+
 const displayPhotos = () => {
+  imagesLoaded = 0;
+  totalImages = photosArray.length;
   photosArray.forEach((photo) => {
     const item = document.createElement('a');
     const img = document.createElement('img');
@@ -22,6 +36,7 @@ const displayPhotos = () => {
       alt: photo.alt_description,
       title: photo.alt_description,
     });
+    img.addEventListener('load', imageLoaded);
     item.append(img);
     imageContainer.append(item);
   });
@@ -42,6 +57,17 @@ const getPhotos = async () => {
     // Catch Error Here
   }
 };
+
+// Check on scrolling
+window.addEventListener('scroll', () => {
+  if (
+    window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 &&
+    isReady
+  ) {
+    isReady = false;
+    getPhotos();
+  }
+});
 
 //On Load
 getPhotos();
